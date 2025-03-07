@@ -1,0 +1,19 @@
+{% extends "automation.html" %}
+
+{% block content %}
+  <h1>Machine Monitoring</h1>
+  <div class="machine-monitoring">
+    <div class="machine-status">
+      <h2>Machine 1</h2>
+      <p>Status: {{ machine1_status }}</p>
+      <p>Temperature: {{ machine1_temperature }}°C</p>
+      <p>Pressure: {{ machine1_pressure }} bar</p>
+    </div>
+    <div class="machine-status">
+      <h2>Machine 2</h2>
+      <p>Status: {{ machine2_status }}</p>
+      <p>Temperature: {{ machine2_temperature }}°C</p>
+      <p>Pressure: {{ machine2_pressure }} bar</p>
+    </div>
+  </div>
+{% endblock %}
