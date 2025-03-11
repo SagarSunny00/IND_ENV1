@@ -3,28 +3,551 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Data Analytics - IAEMS</title>
+    <title>Data Analytics - Industrial Automation & Environmental Management</title>
+    <style>
+        :root {
+            --primary-color: #1d3557;
+            --secondary-color: #2a9d8f;
+            --accent-color: #457b9d;
+            --light-color: #f1faee;
+            --dark-color: #1d3557;
+            --chart-color-1: #e63946;
+            --chart-color-2: #2a9d8f;
+            --chart-color-3: #e9c46a;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f8fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 25px 0;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin: 25px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .flex-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .flex-item {
+            flex: 1;
+            min-width: 250px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .flex-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            background-color: #e2e2e2;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .tab.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .tab-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .metric-box {
+            text-align: center;
+            padding: 15px;
+            background-color: var(--light-color);
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        
+        .chart-container {
+            height: 300px;
+            margin: 20px 0;
+            position: relative;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 20px;
+        }
+        
+        .chart-bar {
+            position: absolute;
+            bottom: 40px;
+            width: 40px;
+            border-radius: 5px 5px 0 0;
+            transition: height 1s ease;
+        }
+        
+        .chart-label {
+            position: absolute;
+            bottom: 10px;
+            text-align: center;
+            width: 60px;
+            font-size: 12px;
+        }
+        
+        .donut-chart {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--chart-color-1) 0% 25%,
+                var(--chart-color-2) 25% 70%,
+                var(--chart-color-3) 70% 100%
+            );
+            position: relative;
+        }
+        
+        .donut-hole {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            top: 40px;
+            left: 40px;
+            background-color: white;
+            border-radius: 50%;
+        }
+        
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 15px;
+        }
+        
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+            border-radius: 3px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 5px;
+        }
+        
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        
+        a:hover {
+            background-color: #2a6f97;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .flex-container {
+                flex-direction: column;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                margin-bottom: 5px;
+                border-radius: 5px;
+            }
+            
+            .metric-value {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Data Analytics</h1>
-        <p>Data analytics is the process of examining data sets to draw conclusions about the information they contain. It involves using various tools and techniques to analyze data and extract valuable insights that can inform decision-making.</p>
-        <h2>Types of Data Analytics</h2>
-        <ul>
-            <li>Descriptive Analytics</li>
-            <li>Diagnostic Analytics</li>
-            <li>Predictive Analytics</li>
-            <li>Prescriptive Analytics</li>
-        </ul>
-        <h2>Applications in Industry</h2>
-        <p>Data analytics can be applied in various industries for:</p>
-        <ul>
-            <li>Improving operational efficiency</li>
-            <li>Enhancing customer experience</li>
-            <li>Predicting market trends</li>
-            <li>Optimizing supply chain management</li>
-        </ul>
-        <a href="new.html">Back to Home</a>
+        <header>
+            <h1>Data Analytics for Industrial Automation & Environmental Management</h1>
+            <p>Leveraging data to optimize industrial processes and environmental impact</p>
+            <nav>
+                <div class="nav-links">
+                  <a href="new.html" class="nav-link">Home</a>
+                  <a href="#benefits" class="nav-link">Benefits</a>
+                  <a href="#technologies" class="nav-link">Technologies</a>
+                  <a href="#case-studies" class="nav-link">Case Studies</a>
+                </div>
+              </nav>
+        </header>
+        
+        <div class="card">
+            <h2>What is Data Analytics in IAEMS?</h2>
+            <p>Data analytics in Industrial Automation and Environmental Management Systems (IAEMS) involves collecting, processing, and analyzing data from automated industrial processes and environmental monitoring systems. This analysis helps organizations optimize operations, reduce environmental impact, and make data-driven decisions.</p>
+        </div>
+        
+        <h2>Types of Data Analytics in IAEMS</h2>
+        <div class="flex-container">
+            <div class="flex-item">
+                <h3>Descriptive Analytics</h3>
+                <p>Examines historical data to understand what has happened in industrial processes and environmental impacts.</p>
+                <p><strong>Examples:</strong> Production metrics, energy consumption patterns, waste generation reports, emissions monitoring.</p>
+            </div>
+            <div class="flex-item">
+                <h3>Diagnostic Analytics</h3>
+                <p>Investigates why certain events or anomalies occurred in production or environmental parameters.</p>
+                <p><strong>Examples:</strong> Root cause analysis of equipment failures, identifying sources of increased emissions or waste.</p>
+            </div>
+            <div class="flex-item">
+                <h3>Predictive Analytics</h3>
+                <p>Forecasts future events based on historical patterns to prevent issues before they occur.</p>
+                <p><strong>Examples:</strong> Predictive maintenance, energy consumption forecasting, environmental compliance risk prediction.</p>
+            </div>
+            <div class="flex-item">
+                <h3>Prescriptive Analytics</h3>
+                <p>Recommends actions to optimize processes and achieve desired outcomes.</p>
+                <p><strong>Examples:</strong> Optimal equipment settings, resource allocation recommendations, environmental control adjustments.</p>
+            </div>
+        </div>
+        
+        <div class="tab-container">
+            <div class="tabs">
+                <div class="tab active" data-tab="applications">Applications</div>
+                <div class="tab" data-tab="benefits">Benefits</div>
+                <div class="tab" data-tab="technologies">Technologies</div>
+                <div class="tab" data-tab="metrics">Key Metrics</div>
+            </div>
+            
+            <div class="tab-content active" id="applications">
+                <h3>Key Applications in Industry</h3>
+                <ul>
+                    <li><strong>Predictive Maintenance:</strong> Using sensor data to predict equipment failures before they occur, reducing downtime and maintenance costs.</li>
+                    <li><strong>Process Optimization:</strong> Analyzing production data to identify inefficiencies and optimize process parameters.</li>
+                    <li><strong>Energy Management:</strong> Monitoring and analyzing energy consumption patterns to reduce usage and costs.</li>
+                    <li><strong>Emissions Monitoring:</strong> Real-time analytics of emissions data to ensure regulatory compliance and reduce environmental impact.</li>
+                    <li><strong>Resource Utilization:</strong> Analyzing resource consumption to minimize waste and improve efficiency.</li>
+                    <li><strong>Quality Control:</strong> Monitoring product quality parameters to reduce defects and improve consistency.</li>
+                </ul>
+            </div>
+            
+            <div class="tab-content" id="benefits">
+                <h3>Business & Environmental Benefits</h3>
+                <div class="flex-container">
+                    <div class="flex-item">
+                        <h4>Operational Benefits</h4>
+                        <div class="metric-box">
+                            <p>Average Maintenance Cost Reduction</p>
+                            <div class="metric-value">28%</div>
+                        </div>
+                        <div class="metric-box">
+                            <p>Production Efficiency Improvement</p>
+                            <div class="metric-value">22%</div>
+                        </div>
+                        <div class="metric-box">
+                            <p>Downtime Reduction</p>
+                            <div class="metric-value">35%</div>
+                        </div>
+                    </div>
+                    <div class="flex-item">
+                        <h4>Environmental Benefits</h4>
+                        <div class="metric-box">
+                            <p>Energy Consumption Reduction</p>
+                            <div class="metric-value">24%</div>
+                        </div>
+                        <div class="metric-box">
+                            <p>Waste Reduction</p>
+                            <div class="metric-value">32%</div>
+                        </div>
+                        <div class="metric-box">
+                            <p>Carbon Footprint Reduction</p>
+                            <div class="metric-value">18%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="technologies">
+                <h3>Enabling Technologies</h3>
+                <div class="flex-container">
+                    <div class="flex-item">
+                        <h4>Data Collection</h4>
+                        <ul>
+                            <li>Industrial IoT Sensors</li>
+                            <li>SCADA Systems</li>
+                            <li>Environmental Monitoring Devices</li>
+                            <li>Smart Meters</li>
+                            <li>Automated Data Logging Systems</li>
+                        </ul>
+                    </div>
+                    <div class="flex-item">
+                        <h4>Data Processing</h4>
+                        <ul>
+                            <li>Edge Computing</li>
+                            <li>Cloud Computing Platforms</li>
+                            <li>Big Data Frameworks</li>
+                            <li>Real-time Processing Systems</li>
+                            <li>Data Integration Tools</li>
+                        </ul>
+                    </div>
+                    <div class="flex-item">
+                        <h4>Analysis & Visualization</h4>
+                        <ul>
+                            <li>Machine Learning Algorithms</li>
+                            <li>Statistical Analysis Tools</li>
+                            <li>Digital Twins</li>
+                            <li>Business Intelligence Dashboards</li>
+                            <li>Augmented Reality Interfaces</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="chart-container" id="tech-adoption-chart">
+                    <!-- Chart will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="tab-content" id="metrics">
+                <h3>Key Performance Indicators</h3>
+                <p>Organizations implementing data analytics in IAEMS typically track these essential metrics:</p>
+                
+                <h4>Operational KPIs</h4>
+                <ul>
+                    <li>Overall Equipment Effectiveness (OEE)</li>
+                    <li>Mean Time Between Failures (MTBF)</li>
+                    <li>Mean Time to Repair (MTTR)</li>
+                    <li>Production Rate</li>
+                    <li>First Pass Yield</li>
+                </ul>
+                
+                <h4>Environmental KPIs</h4>
+                <ul>
+                    <li>Energy Consumption per Unit</li>
+                    <li>Water Usage per Unit</li>
+                    <li>Waste Generation Rate</li>
+                    <li>Carbon Emissions per Unit</li>
+                    <li>Compliance Rate</li>
+                </ul>
+                
+                <h4>ROI Distribution from Data Analytics Projects</h4>
+                <div style="display: flex; justify-content: center; margin-top: 20px;">
+                    <div style="width: 50%; text-align: center;">
+                        <div class="donut-chart">
+                            <div class="donut-hole"></div>
+                        </div>
+                        <div class="legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: var(--chart-color-1);"></div>
+                                <span>Operational Efficiency (25%)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: var(--chart-color-2);"></div>
+                                <span>Energy & Resource Savings (45%)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: var(--chart-color-3);"></div>
+                                <span>Quality Improvements (30%)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h2>Implementation Process</h2>
+        <div class="card">
+            <ol>
+                <li><strong>Needs Assessment:</strong> Identify key operational and environmental challenges that data analytics can address.</li>
+                <li><strong>Data Infrastructure Setup:</strong> Install sensors, monitoring devices, and data collection systems.</li>
+                <li><strong>Data Integration:</strong> Connect various data sources into a unified data platform.</li>
+                <li><strong>Analytics Development:</strong> Implement analytics algorithms and models based on business requirements.</li>
+                <li><strong>Visualization & Reporting:</strong> Create dashboards and reports to communicate insights effectively.</li>
+                <li><strong>Implementation:</strong> Apply insights to optimize processes and environmental practices.</li>
+                <li><strong>Continuous Improvement:</strong> Regularly refine analytics models based on outcomes and changing needs.</li>
+            </ol>
+        </div>
+        
+        <a href="#" id="learn-more">Request Case Studies</a>
+        
+        <footer>
+            <p>© 2025 Industrial Automation & Environmental Management Systems</p>
+            <p>Data-driven solutions for sustainable industrial operations</p>
+        </footer>
     </div>
-   
+    
+    <script>
+        // Tab functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Show corresponding content
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+                
+                // Initialize chart if technologies tab is clicked
+                if (tabId === 'technologies') {
+                    initTechAdoptionChart();
+                }
+            });
+        });
+        
+        // Learn more button
+        document.getElementById('learn-more').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Thank you for your interest! Case studies on data analytics in IAEMS will be sent to your email.');
+        });
+        
+        // Technology adoption chart
+        function initTechAdoptionChart() {
+            const chartContainer = document.getElementById('tech-adoption-chart');
+            if (chartContainer.hasChildNodes()) return; // Prevent recreating if already exists
+            
+            const technologies = [
+                { name: 'IoT Sensors', adoption: 82, color: '#2a9d8f' },
+                { name: 'Cloud Analytics', adoption: 75, color: '#e9c46a' },
+                { name: 'Machine Learning', adoption: 63, color: '#f4a261' },
+                { name: 'Digital Twins', adoption: 48, color: '#e63946' },
+                { name: 'Edge Computing', adoption: 57, color: '#457b9d' }
+            ];
+            
+            technologies.forEach((tech, index) => {
+                const barContainer = document.createElement('div');
+                barContainer.style.position = 'absolute';
+                barContainer.style.left = `${index * 20}%`;
+                barContainer.style.width = '60px';
+                barContainer.style.height = '100%';
+                barContainer.style.textAlign = 'center';
+                
+                const bar = document.createElement('div');
+                bar.className = 'chart-bar';
+                bar.style.left = '10px';
+                bar.style.height = '0';
+                bar.style.backgroundColor = tech.color;
+                
+                const label = document.createElement('div');
+                label.className = 'chart-label';
+                label.textContent = tech.name;
+                
+                barContainer.appendChild(bar);
+                barContainer.appendChild(label);
+                chartContainer.appendChild(barContainer);
+                
+                // Animate bar height with slight delay for each bar
+                setTimeout(() => {
+                    bar.style.height = `${tech.adoption * 2}px`;
+                    
+                    // Add percentage label
+                    const percentLabel = document.createElement('div');
+                    percentLabel.style.position = 'absolute';
+                    percentLabel.style.top = `-20px`;
+                    percentLabel.style.width = '100%';
+                    percentLabel.style.textAlign = 'center';
+                    percentLabel.textContent = `${tech.adoption}%`;
+                    bar.appendChild(percentLabel);
+                }, 100 * index);
+            });
+        }
+        
+        // Add hover effects to flex items
+        document.querySelectorAll('.flex-item').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+            });
+            item.addEventListener('mouseleave', () => {
+                item.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+            });
+        });
+    </script>
+</body>
+</html>
+

@@ -3,30 +3,606 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <title>Environmental Management - IAEMS</title>
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --secondary-color: #43a047;
+            --accent-color: #00796b;
+            --light-color: #e8f5e9;
+            --dark-color: #1b5e20;
+            --chart-color-1: #4caf50;
+            --chart-color-2: #8bc34a;
+            --chart-color-3: #cddc39;
+            --chart-color-4: #009688;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin: 25px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+        
+        p {
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+        
+        ul {
+            list-style-type: none;
+            margin-bottom: 25px;
+        }
+        
+        li {
+            padding: 12px 15px;
+            margin: 8px 0;
+            background-color: var(--light-color);
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 0 5px 5px 0;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            cursor: pointer;
+            font-size: 1.05rem;
+        }
+        
+        li:hover {
+            transform: translateX(10px);
+            background-color: #c8e6c9;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .flex-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .flex-item {
+            flex: 1;
+            min-width: 250px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .flex-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+        
+        .tab {
+            padding: 12px 20px;
+            background-color: #e0e0e0;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .tab.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .tab-content {
+            padding: 25px;
+            background-color: white;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .metric-box {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--light-color);
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid var(--secondary-color);
+            transition: transform 0.3s ease;
+        }
+        
+        .metric-box:hover {
+            transform: scale(1.02);
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        
+        .chart-container {
+            height: 300px;
+            margin: 30px 0;
+            position: relative;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 20px;
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 25px;
+            background-color: #e0e0e0;
+            border-radius: 15px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            border-radius: 15px;
+            background-color: var(--secondary-color);
+            width: 0;
+            transition: width 1.5s ease;
+        }
+        
+        .icon {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            vertical-align: middle;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 5px;
+        }
+        
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        
+        a:hover {
+            background-color: #00695c;
+            transform: translateY(-3px);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .flex-container {
+                flex-direction: column;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                margin-bottom: 5px;
+                border-radius: 5px;
+            }
+            
+            .metric-value {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Environmental Management</h1>
-        <p>Environmental management involves the management of an organization's environmental programs in a comprehensive, systematic, planned, and documented manner. It aims to minimize the environmental impact of operations and ensure compliance with environmental regulations.</p>
-        <h2>Key Components</h2>
-        <ul>
-            <li>Environmental Policy</li>
-            <li>Environmental Impact Assessment</li>
-            <li>Compliance and Monitoring</li>
-            <li>Training and Awareness</li>
-        </ul>
-        <h2>Benefits of Environmental Management</h2>
-        <p>Implementing effective environmental management can lead to:</p>
-        <ul>
-            <li>Reduced waste and resource consumption</li>
-            <li>Improved public image</li>
-            <li>Cost savings through efficiency</li>
-            <li>Enhanced regulatory compliance</li>
-        </ul>
-        <a href="new.html">Back to Home</a>
+        <header>
+            <h1>Environmental Management</h1>
+            <p>Sustainable practices for responsible business operations</p>
+            <nav>
+                <div class="nav-links">
+                  <a href="new.html" class="nav-link">Home</a>
+                  <a href="#benefits" class="nav-link">Benefits</a>
+                  <a href="#technologies" class="nav-link">Technologies</a>
+                  <a href="#case-studies" class="nav-link">Case Studies</a>
+                </div>
+              </nav>
+        </header>
+        
+        <div class="card">
+            <p>Environmental management involves the management of an organization's environmental programs in a comprehensive, systematic, planned, and documented manner. It aims to minimize the environmental impact of operations and ensure compliance with environmental regulations.</p>
+            
+            <div id="impact-animation" class="chart-container" style="height: 100px; text-align: center;">
+                <div style="display: inline-block; vertical-align: middle; margin: 0 15px;">
+                    <div style="font-size: 24px; color: var(--primary-color);">Environmental Impact</div>
+                    <div class="progress-container">
+                        <div id="impact-bar" class="progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-container">
+            <div class="tabs">
+                <div class="tab active" data-tab="components">Key Components</div>
+                <div class="tab" data-tab="benefits">Benefits</div>
+                <div class="tab" data-tab="standards">Standards & Certifications</div>
+                <div class="tab" data-tab="implementation">Implementation</div>
+            </div>
+            
+            <div class="tab-content active" id="components">
+                <h3>Key Components of Environmental Management</h3>
+                
+                <div class="flex-container">
+                    <div class="flex-item">
+                        <h4>Environmental Policy</h4>
+                        <p>A statement of an organization's commitment to environmental management and continuous improvement. It outlines the principles and objectives that guide environmental decision-making.</p>
+                        <ul>
+                            <li>Mission statement and environmental vision</li>
+                            <li>Specific commitments to regulatory compliance</li>
+                            <li>Resource conservation principles</li>
+                            <li>Framework for setting environmental objectives</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="flex-item">
+                        <h4>Environmental Impact Assessment</h4>
+                        <p>A systematic process to identify, predict, and evaluate the environmental effects of proposed actions or projects. It helps in making informed decisions about environmental impacts.</p>
+                        <ul>
+                            <li>Identifying potential environmental impacts</li>
+                            <li>Evaluating significance of impacts</li>
+                            <li>Developing mitigation measures</li>
+                            <li>Monitoring and auditing requirements</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="flex-container">
+                    <div class="flex-item">
+                        <h4>Compliance and Monitoring</h4>
+                        <p>Procedures and systems to ensure operations comply with environmental regulations and to monitor environmental performance metrics.</p>
+                        <ul>
+                            <li>Regulatory tracking systems</li>
+                            <li>Environmental measurement programs</li>
+                            <li>Regular compliance audits</li>
+                            <li>Corrective action plans</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="flex-item">
+                        <h4>Training and Awareness</h4>
+                        <p>Programs to educate employees about environmental policies, procedures, and their role in environmental management.</p>
+                        <ul>
+                            <li>Employee environmental training</li>
+                            <li>Contractor awareness programs</li>
+                            <li>Role-specific environmental training</li>
+                            <li>Communication of environmental performance</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="benefits">
+                <h3>Benefits of Environmental Management</h3>
+                <p>Implementing effective environmental management systems can provide numerous advantages:</p>
+                
+                <div class="flex-container">
+                    <div class="flex-item">
+                        <h4>Environmental Benefits</h4>
+                        <div class="metric-box">
+                            <p>Reduced Waste Generation</p>
+                            <div class="metric-value">35%</div>
+                            <p>average reduction through effective management</p>
+                        </div>
+                        <div class="metric-box">
+                            <p>Energy Consumption Reduction</p>
+                            <div class="metric-value">27%</div>
+                            <p>typical savings with optimization</p>
+                        </div>
+                        <div class="metric-box">
+                            <p>Water Usage Reduction</p>
+                            <div class="metric-value">30%</div>
+                            <p>potential savings with conservation measures</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-item">
+                        <h4>Business Benefits</h4>
+                        <div class="metric-box">
+                            <p>Cost Savings</p>
+                            <div class="metric-value">22%</div>
+                            <p>average operational cost reduction</p>
+                        </div>
+                        <div class="metric-box">
+                            <p>Risk Reduction</p>
+                            <div class="metric-value">40%</div>
+                            <p>reduction in environmental incidents</p>
+                        </div>
+                        <div class="metric-box">
+                            <p>Market Advantage</p>
+                            <div class="metric-value">68%</div>
+                            <p>of consumers prefer eco-friendly companies</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="standards">
+                <h3>Environmental Management Standards & Certifications</h3>
+                
+                <div class="flex-container">
+                    <div class="flex-item">
+                        <h4>ISO 14001</h4>
+                        <p>The international standard for environmental management systems (EMS). It provides a framework that organizations can follow to establish an effective EMS.</p>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 85%; background-color: var(--chart-color-1);"></div>
+                        </div>
+                        <p><small>85% of Fortune 500 companies are ISO 14001 certified</small></p>
+                    </div>
+                    
+                    <div class="flex-item">
+                        <h4>EMAS (Eco-Management and Audit Scheme)</h4>
+                        <p>A premium management instrument developed by the European Commission for organizations to evaluate, report, and improve their environmental performance.</p>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 42%; background-color: var(--chart-color-2);"></div>
+                        </div>
+                        <p><small>42% adoption rate among European corporations</small></p>
+                    </div>
+                </div>
+                
+                <div class="flex-container">
+                    <div class="flex-item">
+                        <h4>Carbon Trust Standard</h4>
+                        <p>Recognizes organizations for measuring, managing, and reducing their carbon footprint and resource usage.</p>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 55%; background-color: var(--chart-color-3);"></div>
+                        </div>
+                        <p><small>55% increase in adoption over the past 5 years</small></p>
+                    </div>
+                    
+                    <div class="flex-item">
+                        <h4>Leadership in Energy and Environmental Design (LEED)</h4>
+                        <p>A green building certification program focused on building design, construction, and operation.</p>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 70%; background-color: var(--chart-color-4);"></div>
+                        </div>
+                        <p><small>70% of new commercial buildings seek LEED certification</small></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="implementation">
+                <h3>Implementing an Environmental Management System</h3>
+                
+                <div class="card">
+                    <h4>Implementation Process</h4>
+                    <ol>
+                        <li><strong>Initial Environmental Review:</strong> Assess current environmental impacts and practices.</li>
+                        <li><strong>Environmental Policy Development:</strong> Create a policy that reflects commitment to environmental management.</li>
+                        <li><strong>Planning:</strong> Identify environmental aspects, legal requirements, and set objectives and targets.</li>
+                        <li><strong>Implementation:</strong> Establish responsibilities, training, documentation, and operational controls.</li>
+                        <li><strong>Checking and Corrective Action:</strong> Monitor and measure performance, conduct audits, and implement corrective actions.</li>
+                        <li><strong>Management Review:</strong> Executive review of the EMS to ensure its continuing suitability and effectiveness.</li>
+                        <li><strong>Continuous Improvement:</strong> Ongoing refinement of the system based on performance data and changing conditions.</li>
+                    </ol>
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <h4>Implementation Challenges and Solutions</h4>
+                    <div class="flex-container">
+                        <div class="flex-item">
+                            <h5>Common Challenges</h5>
+                            <ul>
+                                <li>Resource constraints</li>
+                                <li>Resistance to change</li>
+                                <li>Lack of expertise</li>
+                                <li>Regulatory complexity</li>
+                                <li>Data management issues</li>
+                            </ul>
+                        </div>
+                        <div class="flex-item">
+                            <h5>Effective Solutions</h5>
+                            <ul>
+                                <li>Phased implementation approach</li>
+                                <li>Employee engagement programs</li>
+                                <li>External consultant support</li>
+                                <li>Regulatory tracking software</li>
+                                <li>Integrated data management systems</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Case Study: Successful Implementation</h2>
+            <div class="flex-container">
+                <div class="flex-item">
+                    <h4>Manufacturing Company XYZ</h4>
+                    <p>A mid-sized manufacturing company implemented a comprehensive environmental management system with the following results:</p>
+                    <ul>
+                        <li>32% reduction in energy consumption</li>
+                        <li>45% decrease in waste generation</li>
+                        <li>28% reduction in water usage</li>
+                        <li>$1.2 million annual cost savings</li>
+                        <li>Zero environmental violations for 5 consecutive years</li>
+                    </ul>
+                </div>
+                <div class="flex-item">
+                    <h4>Key Success Factors</h4>
+                    <ul>
+                        <li>Strong leadership commitment</li>
+                        <li>Employee engagement at all levels</li>
+                        <li>Clear metrics and goals</li>
+                        <li>Technology integration</li>
+                        <li>Regular monitoring and reporting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="#" id="learn-more">Request Consultation</a>
+            <a href="new.html" style="margin-left: 15px;">Back to Home</a>
+        </div>
+        
+        <footer>
+            <p>© 2025 Industrial Automation & Environmental Management Systems</p>
+            <p>Sustainable solutions for a better future</p>
+        </footer>
     </div>
-    <script src="script.js"></script>
+    
+    <script>
+        // Tab functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Show corresponding content
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Interactive list items
+        document.querySelectorAll('li').forEach(item => {
+            item.addEventListener('click', () => {
+                item.style.backgroundColor = '#a5d6a7';
+                setTimeout(() => {
+                    item.style.backgroundColor = '';
+                }, 500);
+            });
+        });
+        
+        // Learn more button
+        document.getElementById('learn-more').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Thank you for your interest in our environmental management solutions! A consultant will contact you shortly.');
+        });
+        
+        // Animate impact bar on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('impact-bar').style.width = '65%';
+            }, 500);
+        });
+        
+        // Animate progress bars when in view
+        function animateProgressBars() {
+            const progressBars = document.querySelectorAll('.progress-bar');
+            progressBars.forEach(bar => {
+                const target = bar.style.width || '0%';
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = target;
+                }, 300);
+            });
+        }
+        
+        // Animate metric values with counting effect
+        document.querySelectorAll('.metric-value').forEach(metric => {
+            const value = metric.textContent;
+            metric.textContent = '0%';
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        let startValue = 0;
+                        const endValue = parseInt(value);
+                        const duration = 1500;
+                        const increment = endValue / (duration / 16);
+                        
+                        const counter = setInterval(() => {
+                            startValue += increment;
+                            if (startValue > endValue) {
+                                metric.textContent = endValue + '%';
+                                clearInterval(counter);
+                            } else {
+                                metric.textContent = Math.floor(startValue) + '%';
+                            }
+                        }, 16);
+                        
+                        observer.disconnect();
+                    }
+                });
+            });
+            
+            observer.observe(metric);
+        });
+        
+        // Run animation when tabs change
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                setTimeout(animateProgressBars, 300);
+            });
+        });
+    </script>
 </body>
 </html>
