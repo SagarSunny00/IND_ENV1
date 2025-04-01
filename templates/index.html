@@ -1,12 +1,116 @@
-{%load static%}
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>Login - IAEMS</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #dfe6e9;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        input.error-field {
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 0;
+            width: 100%;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        button a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+        }
+
+        .error {
+            color: #e74c3c;
+            margin-top: 1rem;
+            min-height: 20px;
+            transition: opacity 0.3s;
+        }
+
+        .input-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .input-status {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #2ecc71;
+            display: none;
+        }
+
+        .input-status.error {
+            color: #e74c3c;
+        }
+    </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Login to IAEMS</h1>
@@ -17,10 +121,295 @@
             <input type="password" id="password" placeholder="Password" required />
             <br>
             <br>
-            <button type="submit">Login</button>
+            <button type="submit" href="{{templates/new}}"><a href="new.html" id="loginLink">Login</a></button>
         </form>
         <p id="error" class="error"></p>
     </div>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const loginForm = document.getElementById('loginForm');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const errorElement = document.getElementById('error');
+            const loginLink = document.getElementById('loginLink');
+
+            // Real-time validation for username
+            usernameInput.addEventListener('input', function () {
+                validateField(usernameInput, 'Username');
+
+            });
+
+
+
+            // Real-time validation for password
+            passwordInput.addEventListener('input', function () {
+                validateField(passwordInput, 'Password');
+            });
+
+            // Validate form on submit
+            loginForm.addEventListener('submit', function (event) {
+                // Reset error message
+                errorElement.textContent = '';
+
+                // Check if fields are empty
+                let isValid = true;
+
+                if (usernameInput.value.trim() === '') {
+                    event.preventDefault();
+                    errorElement.textContent = 'Username is required';
+                    highlightField(usernameInput, true);
+                    isValid = false;
+                } else {
+                    highlightField(usernameInput, false);
+                }
+
+                if (passwordInput.value.trim() === '') {
+                    event.preventDefault();
+                    if (isValid) { // Only show one error at a time
+                        errorElement.textContent = 'Password is required';
+                    }
+                    highlightField(passwordInput, true);
+                    isValid = false;
+                } else {
+                    highlightField(passwordInput, false);
+                }
+
+                // Basic validation passed
+                if (isValid) {
+                    // Visual feedback
+                    const button = document.querySelector('button');
+                    button.style.backgroundColor = '#2ecc71';
+                    setTimeout(() => {
+                        button.style.backgroundColor = '#3498db';
+                    }, 300);
+
+                    // In a real application, you would typically send this data to a server
+                    // For this example, we're just allowing the form to submit to the new.html page
+                    return true;
+                }
+
+                return false;
+            });
+
+            // Validate a single field
+            function validateField(inputElement, fieldName) {
+                if (inputElement.value.trim() === '') {
+                    highlightField(inputElement, true);
+                    errorElement.textContent = `${fieldName} is required`;
+                } else {
+                    highlightField(inputElement, false);
+                    errorElement.textContent = '';
+                }
+            }
+
+            // Visual feedback for field validation
+            function highlightField(inputElement, isError) {
+                if (isError) {
+                    inputElement.classList.add('error-field');
+                } else {
+                    inputElement.classList.remove('error-field');
+                }
+            }
+        });
+    </script>
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login to IAEMS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .logo-icon {
+            margin-right: 10px;
+        }
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .button {
+            flex-grow: 1;
+            padding: 10px;
+            margin: 10px 5px;
+            border: none;
+            border-radius: 4px;
+            background-color: #3498db;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #2980b9;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        .error-field {
+            border-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <div class="logo-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                    <path d="M2 17l10 5 10-5"></path>
+                    <path d="M2 12l10 5 10-5"></path>
+                </svg>
+            </div>
+            <span class="logo-text">IAEMS</span>
+        </div>
+        <h1>Login to IAEMS</h1>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Username" required />
+            <input type="password" id="password" placeholder="Password" required />
+            <div class="button-container">
+                <button type="submit" class="button">Login</button>
+                <button type="button" class="button signup-button" id="signupButton">Sign Up</button>
+            </div>
+        </form>
+        <p id="error" class="error"></p>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const loginForm = document.getElementById('loginForm');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const errorElement = document.getElementById('error');
+            const signupButton = document.getElementById('signupButton');
+
+            // Signup button navigation
+            signupButton.addEventListener('click', function() {
+                window.location.href = 'signup.html';
+            });
+
+            // Real-time validation for username
+            usernameInput.addEventListener('input', function () {
+                validateField(usernameInput, 'Username');
+            });
+
+            // Real-time validation for password
+            passwordInput.addEventListener('input', function () {
+                validateField(passwordInput, 'Password');
+            });
+
+            // Validate form on submit
+            loginForm.addEventListener('submit', function (event) {
+                // Prevent default form submission
+                event.preventDefault();
+
+                // Reset error message
+                errorElement.textContent = '';
+
+                // Check if fields are empty
+                let isValid = true;
+
+                if (usernameInput.value.trim() === '') {
+                    errorElement.textContent = 'Username is required';
+                    highlightField(usernameInput, true);
+                    isValid = false;
+                } else {
+                    highlightField(usernameInput, false);
+                }
+
+                if (passwordInput.value.trim() === '') {
+                    if (isValid) { // Only show one error at a time
+                        errorElement.textContent = 'Password is required';
+                    }
+                    highlightField(passwordInput, true);
+                    isValid = false;
+                } else {
+                    highlightField(passwordInput, false);
+                }
+
+                // Check stored credentials
+                if (isValid) {
+                    const username = usernameInput.value.trim();
+                    const password = passwordInput.value.trim();
+
+                    // Retrieve stored credentials from localStorage
+                    const storedUsername = localStorage.getItem('username');
+                    const storedPassword = localStorage.getItem('password');
+
+                    // Validate credentials
+                    if (username === storedUsername && password === storedPassword) {
+                        // Visual feedback
+                        const button = document.querySelector('button[type="submit"]');
+                        button.style.backgroundColor = '#2ecc71';
+                        
+                        // Redirect to new.html
+                        window.location.href = 'new.html';
+                    } else {
+                        // Invalid credentials
+                        errorElement.textContent = 'Invalid username or password';
+                        highlightField(usernameInput, true);
+                        highlightField(passwordInput, true);
+                    }
+                }
+            });
+
+            // Validate a single field
+            function validateField(inputElement, fieldName) {
+                if (inputElement.value.trim() === '') {
+                    highlightField(inputElement, true);
+                    errorElement.textContent = `${fieldName} is required`;
+                } else {
+                    highlightField(inputElement, false);
+                    errorElement.textContent = '';
+                }
+            }
+
+            // Visual feedback for field validation
+            function highlightField(inputElement, isError) {
+                if (isError) {
+                    inputElement.classList.add('error-field');
+                } else {
+                    inputElement.classList.remove('error-field');
+                }
+            }
+        });
+        
+    </script>
 </body>
 </html>

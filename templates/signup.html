@@ -1,15 +1,118 @@
-{% load static %}
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>Sign Up - IAEMS</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #dfe6e9;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        input.invalid {
+            border-color: #e74c3c;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 0;
+            width: 100%;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .error {
+            color: #e74c3c;
+            margin-top: 1rem;
+            text-align: left;
+        }
+        p {
+            margin-top: 1.5rem;
+            color: #7f8c8d;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .form-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        .logo {
+            width: 40px;
+            height: 40px;
+            background-color: #3498db;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: #2c3e50;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Sign Up for IAEMS</h1>
+        <div class="form-header">
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                    <path d="M2 17l10 5 10-5"></path>
+                    <path d="M2 12l10 5 10-5"></path>
+                </svg>
+            </div>
+            <span class="logo-text">IAEMS</span>
+        </div>
+        <h1>Join Our Community</h1>
         <form id="signupForm">
             <input type="text" id="name" placeholder="First Name" required />
             <input type="text" id="surname" placeholder="Surname" required />
@@ -17,11 +120,345 @@
             <input type="password" id="password" placeholder="Password" required />
             <input type="email" id="email" placeholder="Email" required />
             <input type="date" id="dob" placeholder="Date of Birth" required />
-            <button type="submit" ><a href="home.html">Sign Up</a></button>
+            <div id="errorMessages" class="error"></div>
+            <button type="submit" id="submitButton" disabled>Get Started</button>
+        </form>
+        <p>Already have an account? <a href="index.html">Log in here</a></p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('signupForm');
+            const nameInput = document.getElementById('name');
+            const surnameInput = document.getElementById('surname');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const emailInput = document.getElementById('email');
+            const dobInput = document.getElementById('dob');
+            const errorMessages = document.getElementById('errorMessages');
+            const submitButton = document.getElementById('submitButton');
+
+            // Input validation functions
+            function validateName(name) {
+                return name.trim().length >= 2;
+            }
+
+            function validateUsername(username) {
+                return /^[a-zA-Z0-9_]{3,20}$/.test(username);
+            }
+
+            function validatePassword(password) {
+                return password.length >= 8 && 
+                       /[A-Z]/.test(password) && 
+                       /[a-z]/.test(password) && 
+                       /[0-9]/.test(password);
+            }
+
+            function validateEmail(email) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            }
+
+            function validateDateOfBirth(dob) {
+                const today = new Date();
+                const birthDate = new Date(dob);
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const monthDiff = today.getMonth() - birthDate.getMonth();
+                
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+                
+                return age >= 13;
+            }
+
+            // Validation and error display
+            function validateInputs() {
+                let isValid = true;
+                let errors = [];
+
+                // Name validation
+                if (!validateName(nameInput.value)) {
+                    isValid = false;
+                    errors.push("First name must be at least 2 characters long.");
+                    nameInput.classList.add('invalid');
+                } else {
+                    nameInput.classList.remove('invalid');
+                }
+
+                // Surname validation
+                if (!validateName(surnameInput.value)) {
+                    isValid = false;
+                    errors.push("Surname must be at least 2 characters long.");
+                    surnameInput.classList.add('invalid');
+                } else {
+                    surnameInput.classList.remove('invalid');
+                }
+
+                // Username validation
+                if (!validateUsername(usernameInput.value)) {
+                    isValid = false;
+                    errors.push("Username must be 3-20 characters long and contain only letters, numbers, and underscores.");
+                    usernameInput.classList.add('invalid');
+                } else {
+                    usernameInput.classList.remove('invalid');
+                }
+
+                // Password validation
+                if (!validatePassword(passwordInput.value)) {
+                    isValid = false;
+                    errors.push("Password must be at least 8 characters long and contain uppercase, lowercase, and numbers.");
+                    passwordInput.classList.add('invalid');
+                } else {
+                    passwordInput.classList.remove('invalid');
+                }
+
+                // Email validation
+                if (!validateEmail(emailInput.value)) {
+                    isValid = false;
+                    errors.push("Please enter a valid email address.");
+                    emailInput.classList.add('invalid');
+                } else {
+                    emailInput.classList.remove('invalid');
+                }
+
+                // Date of Birth validation
+                if (!validateDateOfBirth(dobInput.value)) {
+                    isValid = false;
+                    errors.push("You must be at least 13 years old to register.");
+                    dobInput.classList.add('invalid');
+                } else {
+                    dobInput.classList.remove('invalid');
+                }
+
+                // Display errors
+                errorMessages.innerHTML = errors.map(error => `<p>${error}</p>`).join('');
+                
+                // Enable/disable submit button
+                submitButton.disabled = !isValid;
+
+                return isValid;
+            }
+
+            // Add event listeners for real-time validation
+            [nameInput, surnameInput, usernameInput, passwordInput, emailInput, dobInput].forEach(input => {
+                input.addEventListener('input', validateInputs);
+            });
+
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (validateInputs()) {
+                    // If all validations pass, navigate to the next page
+                    window.location.href = 'new.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up to IAEMS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .logo-icon {
+            margin-right: 10px;
+        }
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 4px;
+            background-color: #3498db;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #2980b9;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        .error-field {
+            border-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <div class="logo-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                    <path d="M2 17l10 5 10-5"></path>
+                    <path d="M2 12l10 5 10-5"></path>
+                </svg>
+            </div>
+            <span class="logo-text">IAEMS</span>
+        </div>
+        <h1>Sign Up to IAEMS</h1>
+        <form id="signupForm">
+            <input type="text" id="name" placeholder="First Name" required />
+            <input type="text" id="surname" placeholder="Surname" required />
+            <input type="email" id="email" placeholder="Email" required />
+            <input type="date" id="dob" placeholder="Date of Birth" required />
+            <div id="errorMessages" class="error"></div>
+            <input type="text" id="username" placeholder="Username" required />
+            <input type="password" id="password" placeholder="Password" required />
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+            <button type="submit" class="button">Sign Up</button>
         </form>
         <p id="error" class="error"></p>
-        <p>Already have an account? <a href="index.html">Login here</a></p>
     </div>
-    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const signupForm = document.getElementById('signupForm');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const errorElement = document.getElementById('error');
+
+            // Validate username input
+            usernameInput.addEventListener('input', function () {
+                validateField(usernameInput, 'Username');
+            });
+
+            // Validate password input
+            passwordInput.addEventListener('input', function () {
+                validateField(passwordInput, 'Password');
+            });
+
+            // Validate confirm password input
+            confirmPasswordInput.addEventListener('input', function () {
+                validateField(confirmPasswordInput, 'Confirm Password');
+            });
+
+            // Handle form submission
+            signupForm.addEventListener('submit', function (event) {
+                // Prevent default form submission
+                event.preventDefault();
+
+                // Reset error message
+                errorElement.textContent = '';
+
+                // Validate fields
+                let isValid = true;
+
+                // Check username
+                if (usernameInput.value.trim() === '') {
+                    errorElement.textContent = 'Username is required';
+                    highlightField(usernameInput, true);
+                    isValid = false;
+                } else {
+                    highlightField(usernameInput, false);
+                }
+
+                // Check password
+                if (passwordInput.value.trim() === '') {
+                    if (isValid) { // Only show one error at a time
+                        errorElement.textContent = 'Password is required';
+                    }
+                    highlightField(passwordInput, true);
+                    isValid = false;
+                } else {
+                    highlightField(passwordInput, false);
+                }
+
+                // Check confirm password
+                if (confirmPasswordInput.value.trim() === '') {
+                    if (isValid) { // Only show one error at a time
+                        errorElement.textContent = 'Please confirm your password';
+                    }
+                    highlightField(confirmPasswordInput, true);
+                    isValid = false;
+                } else {
+                    highlightField(confirmPasswordInput, false);
+                }
+
+                // Check if passwords match
+                if (passwordInput.value !== confirmPasswordInput.value) {
+                    errorElement.textContent = 'Passwords do not match';
+                    highlightField(passwordInput, true);
+                    highlightField(confirmPasswordInput, true);
+                    isValid = false;
+                }
+
+                // If all validations pass, store credentials and redirect
+                if (isValid) {
+                    // Store username and password in localStorage
+                    localStorage.setItem('username', usernameInput.value.trim());
+                    localStorage.setItem('password', passwordInput.value.trim());
+
+                    // Visual feedback
+                    const button = document.querySelector('button[type="submit"]');
+                    button.style.backgroundColor = '#2ecc71';
+                    
+                    // Redirect to login page
+                    window.location.href = 'index.html';
+                }
+            });
+
+            // Validate a single field
+            function validateField(inputElement, fieldName) {
+                if (inputElement.value.trim() === '') {
+                    highlightField(inputElement, true);
+                    errorElement.textContent = `${fieldName} is required`;
+                } else {
+                    highlightField(inputElement, false);
+                    errorElement.textContent = '';
+                }
+            }
+
+            // Visual feedback for field validation
+            function highlightField(inputElement, isError) {
+                if (isError) {
+                    inputElement.classList.add('error-field');
+                } else {
+                    inputElement.classList.remove('error-field');
+                }
+            }
+        });
+    </script>
 </body>
 </html>

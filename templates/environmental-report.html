@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environmental Impact Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9fafb;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .header h1 {
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        .btn-secondary {
+            background-color: #10b981;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #059669;
+        }
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .chart-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .chart-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .chart-title h2 {
+            margin-left: 0.75rem;
+            color: #4a5568;
+        }
+        .summary-section {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.5rem;
+        }
+        .summary-item {
+            text-align: center;
+        }
+        .summary-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        .summary-trend {
+            font-weight: bold;
+        }
+        .report-date {
+            text-align: center;
+            color: #718096;
+            font-style: italic;
+            margin-top: 2rem;
+        }
+        @media (max-width: 768px) {
+            .charts-grid,
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                max-width: 100%;
+                padding: 1rem;
+            }
+            .header {
+                display: none;
+            }
+            .chart-card {
+                page-break-inside: avoid;
+                margin-bottom: 1rem;
+            }
+            .summary-section {
+                page-break-inside: avoid;
+            }
+            canvas {
+                max-width: 100%;
+                height: auto !important;
+            }
+        }
+        .btn-primary {
+            background-color: var(--primary);
+            color: rgb(30, 112, 145);
+        }
+
+        .btn-primary:hover {
+            background-color: #3ad16c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button><a href="new.html">Back to Home</a></button>
+            <h1>
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2ecc71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                Environmental Impact Report
+            </h1>
+            <div>
+                <button id="download-pdf" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download PDF
+                </button>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <!-- Carbon Emissions Trend -->
+            <div class="chart-card">
+                <div class="chart-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2ecc71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="23" y1="6" x2="14" y2="15"></line>
+                        <path d="M20 10V14H16"></path>
+                    </svg>
+                    <h2>Carbon Emissions Trend</h2>
+                </div>
+                <canvas id="carbonEmissionsChart"></canvas>
+                <p class="text-gray-600 mt-4">
+                    Total Reduction: 9.9 tons CO2e (39% decrease)
+                </p>
+            </div>
+
+            <!-- Energy Mix -->
+            <div class="chart-card">
+                <div class="chart-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3498db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polygon points="11 7 15 12 11 17 7 12"></polygon>
+                    </svg>
+                    <h2>Energy Source Composition</h2>
+                </div>
+                <canvas id="energyMixChart"></canvas>
+                <p class="text-gray-600 mt-4">
+                    Renewable Energy Target: Increased from 34% to 42%
+                </p>
+            </div>
+
+            <!-- Water Usage Trend -->
+            <div class="chart-card">
+                <div class="chart-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3498db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                    </svg>
+                    <h2>Water Conservation</h2>
+                </div>
+                <canvas id="waterUsageChart"></canvas>
+                <p class="text-gray-600 mt-4">
+                    Total Water Saved: 3,000 L (18% reduction)
+                </p>
+            </div>
+
+            <!-- Waste Management -->
+            <div class="chart-card">
+                <div class="chart-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2ecc71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <h2>Waste Management Breakdown</h2>
+                </div>
+                <canvas id="wasteManagementChart"></canvas>
+                <p class="text-gray-600 mt-4">
+                    Goal Achieved: 78% Recycling Rate
+                </p>
+            </div>
+        </div>
+
+        <div class="summary-section">
+            <h2 style="font-size: 1.75rem; font-weight: bold; margin-bottom: 1.5rem;">Environmental Impact Summary</h2>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <h3 class="text-xl font-semibold mb-2">Carbon Footprint</h3>
+                    <p class="summary-value" style="color: #2ecc71;">20.1 tons CO2e</p>
+                    <p class="summary-trend" style="color: #2ecc71;">↓ 39% Reduction</p>
+                </div>
+                <div class="summary-item">
+                    <h3 class="text-xl font-semibold mb-2">Renewable Energy</h3>
+                    <p class="summary-value" style="color: #3498db;">42%</p>
+                    <p class="summary-trend" style="color: #3498db;">↑ 8% Increase</p>
+                </div>
+                <div class="summary-item">
+                    <h3 class="text-xl font-semibold mb-2">Water Saved</h3>
+                    <p class="summary-value" style="color: #1abc9c;">16,200 L</p>
+                    <p class="summary-trend" style="color: #1abc9c;">↓ 18% Consumption</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="report-date">
+            Report Generated: <span id="report-generation-date"></span>
+        </div>
+    </div>
+
+    <script>
+        const carbonEmissionsData = {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Carbon Emissions (tons CO2e)',
+                data: [25.3, 22.7, 20.1, 18.6, 16.9, 15.4],
+                borderColor: '#8884d8',
+                backgroundColor: 'rgba(136, 132, 216, 0.2)',
+                tension: 0.4
+            }]
+        };
+
+        const energyMixData = {
+            labels: ['Renewable', 'Fossil Fuels'],
+            datasets: [{
+                data: [42, 58],
+                backgroundColor: ['#0088FE', '#00C49F']
+            }]
+        };
+
+        const waterUsageData = {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Water Usage (L)',
+                data: [16500, 15200, 14800, 14300, 13900, 13500],
+                borderColor: '#82ca9d',
+                backgroundColor: 'rgba(130, 202, 157, 0.2)',
+                tension: 0.4
+            }]
+        };
+
+        const wasteManagementData = {
+            labels: ['Recycled', 'Landfill', 'Composted'],
+            datasets: [{
+                data: [78, 15, 7],
+                backgroundColor: ['#0088FE', '#00C49F', '#FFBB28']
+            }]
+        };
+
+        // Create charts
+        const chartOptions = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            }
+        };
+
+        const carbonEmissionsChart = new Chart(document.getElementById('carbonEmissionsChart'), {
+            type: 'line',
+            data: carbonEmissionsData,
+            options: chartOptions
+        });
+
+        const energyMixChart = new Chart(document.getElementById('energyMixChart'), {
+            type: 'pie',
+            data: energyMixData,
+            options: chartOptions
+        });
+
+        const waterUsageChart = new Chart(document.getElementById('waterUsageChart'), {
+            type: 'line',
+            data: waterUsageData,
+            options: chartOptions
+        });
+
+        const wasteManagementChart = new Chart(document.getElementById('wasteManagementChart'), {
+            type: 'pie',
+            data: wasteManagementData,
+            options: chartOptions
+        });
+
+        // Event Listeners
+        document.getElementById('download-pdf').addEventListener('click', () => {
+            // Trigger browser's print dialog which effectively creates a PDF
+            window.print();
+        });
+
+        // Set report generation date
+        document.getElementById('report-generation-date').textContent = new Date().toLocaleDateString();
+    </script>
+</body>
+</html>

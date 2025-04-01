@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Industrial Tech Signup</title>
+    <meta name="description" content="Industrial Tech Signup Form">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --dark-color: #1e293b;
+            --text-color: #64748b;
+            --accent-color: #0ea5e9;
+            --error-color: #ef4444;
+            --success-color: #10b981;
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(-50px);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-button:hover {
+            color: var(--accent-color);
+        }
+
+        /* Form styles */
+        .auth-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .password-requirements {
+            margin-top: 5px;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .password-strength {
+            height: 5px;
+            width: 100%;
+            background-color: #e2e8f0;
+            margin-top: 5px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .password-strength-meter {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* Checkbox styling */
+        .checkbox-container {
+            display: flex;
+            align-items: flex-start;
+            position: relative;
+            padding-left: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            user-select: none;
+        }
+
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 2px;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            background-color: #fff;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .checkbox-container:hover input~.checkmark {
+            border-color: var(--primary-color);
+        }
+
+        .checkbox-container input:checked~.checkmark {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .checkbox-container input:checked~.checkmark:after {
+            display: block;
+        }
+
+        .checkbox-container .checkmark:after {
+            left: 6px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        /* Form actions */
+        .form-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 16px;
+        }
+
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 16px;
+            padding: 12px;
+            width: 100%;
+        }
+
+        .submit-btn:disabled {
+            background-color: #cbd5e1;
+            cursor: not-allowed;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            background-color: #1d4ed8;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        /* Form validation */
+        .form-group input:invalid:focus,
+        .form-group select:invalid:focus {
+            border-color: var(--error-color);
+            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+        }
+
+        /* Animation */
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: translateX(-5px);
+            }
+
+            20%,
+            40%,
+            60%,
+            80% {
+                transform: translateX(5px);
+            }
+        }
+
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+        }
+
+        /* Login Form Styles */
+        .form-toggle {
+            display: none;
+        }
+
+        .form-toggle.active {
+            display: block;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h2 {
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+
+        .form-header p {
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        .form-nav {
+            display: flex;
+            margin-bottom: 30px;
+        }
+
+        .form-nav-item {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border-bottom: 2px solid #e2e8f0;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .form-nav-item.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        /* Success message */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .success-message .checkmark-circle {
+            width: 60px;
+            height: 60px;
+            position: relative;
+            background-color: var(--success-color);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+        }
+
+        .success-message .checkmark-circle:after {
+            content: '';
+            position: absolute;
+            left: 22px;
+            top: 15px;
+            width: 15px;
+            height: 25px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
+
+        .success-message h3 {
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+
+        .success-message p {
+            color: var(--text-color);
+            margin-bottom: 20px;
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: none;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .submit-btn-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+                padding: 20px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Demo button */
+        .cta-section {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .cta-section h2 {
+            margin-bottom: 10px;
+            font-size: 32px;
+            color: var(--dark-color);
+        }
+
+        .cta-section p {
+            margin-bottom: 30px;
+            color: var(--text-color);
+            font-size: 18px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-section .btn {
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 18px;
+            padding: 15px 30px;
+        }
+
+        /* Toggle password visibility */
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 38px;
+            cursor: pointer;
+            color: var(--text-color);
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Demo button to open modal -->
+    <div class="cta-section">
+        <h2>Industrial Tech Platform</h2>
+        <p>Streamline your industrial processes with our cutting-edge technology. Gain insights, optimize operations, and drive innovation with our comprehensive solution.</p>
+        <button class="btn" id="open-modal-btn">Get Started Today</button>
+    </div>
+
+    <!-- Modal HTML -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            
+            <!-- Form Navigation -->
+            <div class="form-nav">
+                <div class="form-nav-item active" data-form="signup">Sign Up</div>
+                <div class="form-nav-item" data-form="login">Log In</div>
+            </div>
+
+            <!-- Signup Form -->
+            <form id="signup-form" class="auth-form form-toggle active">
+                <div class="form-header">
+                    <h2>Create Your Account</h2>
+                    <p>Join IndustrialTech and transform your operations</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="company-name">Company Name</label>
+                    <input type="text" id="company-name" name="company-name" required>
+                    <div class="error-message" id="company-name-error">Please enter your company name</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="full-name">Full Name</label>
+                    <input type="text" id="full-name" name="full-name" required>
+                    <div class="error-message" id="full-name-error">Please enter your full name</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" name="email" required>
+                    <div class="error-message" id="signup-email-error">Please enter a valid email address</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" name="password" required minlength="8">
+                    <span class="password-toggle" id="signup-password-toggle">👁️</span>
+                    <div class="error-message" id="signup-password-error">Password must be at least 8 characters</div>
+                    <div class="password-requirements">
+                        Password must contain at least 8 characters, including uppercase, lowercase, number, and special character
+                    </div>
+                    <div class="password-strength">
+                        <div class="password-strength-meter" id="password-strength-meter"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required>
+                    <span class="password-toggle" id="confirm-password-toggle">👁️</span>
+                    <div class="error-message" id="confirm-password-error">Passwords do not match</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="industry">Industry</label>
+                    <select id="industry" name="industry" required>
+                        <option value="" disabled selected>Select your industry</option>
+                        <option value="automotive">Automotive</option>
+                        <option value="food">Food & Beverage</option>
+                        <option value="pharma">Pharmaceutical</option>
+                        <option value="manufacturing">General Manufacturing</option>
+                        <option value="energy">Energy & Utilities</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <div class="error-message" id="industry-error">Please select your industry</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <span class="checkmark"></span>
+                        I agree to the Terms of Service and Privacy Policy
+                        <div class="error-message" id="terms-error">You must agree to the terms to continue</div>
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <div class="submit-btn-wrapper">
+                        <div class="loading-spinner" id="signup-spinner"></div>
+                        <button type="submit" class="btn submit-btn" id="signup-btn">Create Account</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form form-toggle">
+                <div class="form-header">
+                    <h2>Welcome Back</h2>
+                    <p>Log in to access your IndustrialTech dashboard</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" name="email" required>
+                    <div class="error-message" id="login-email-error">Please enter a valid email address</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password" required>
+                    <span class="password-toggle" id="login-password-toggle">👁️</span>
+                    <div class="error-message" id="login-password-error">Please enter your password</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="remember-me" name="remember-me">
+                        <span class="checkmark"></span>
+                        Remember me
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <div class="submit-btn-wrapper">
+                        <div class="loading-spinner" id="login-spinner"></div>
+                        <button type="submit" class="btn submit-btn" id="login-btn">Log In</button>
+                    </div>
+                    <button type="button" class="btn btn-outline" id="forgot-password-btn">Forgot Password?</button>
+                </div>
+            </form>
+
+            <!-- Success Message -->
+            <div id="success-message" class="success-message">
+                <div class="checkmark-circle"></div>
+                <h3>Account Created Successfully!</h3>
+                <p>Redirecting you to your dashboard...</p>
+                <div class="loading-spinner" style="display: inline-block;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the modal
+            const modal = document.getElementById("auth-modal");
+
+            // Get the button that opens the modal
+            const btn = document.getElementById("open-modal-btn");
+
+            // Get the <span> element that closes the modal
+            const closeBtn = document.querySelector(".close-button");
+
+            // Get the forms
+            const signupForm = document.getElementById("signup-form");
+            const loginForm = document.getElementById("login-form");
+
+            // Get the form navigation items
+            const formNavItems = document.querySelectorAll(".form-nav-item");
+
+            // Get the success message
+            const successMessage = document.getElementById("success-message");
+
+            // Get password toggle buttons
+            const passwordToggles = document.querySelectorAll(".password-toggle");
+
+            // Get password strength meter
+            const passwordStrengthMeter = document.getElementById("password-strength-meter");
+
+            // Get loading spinners
+            const signupSpinner = document.getElementById("signup-spinner");
+            const loginSpinner = document.getElementById("login-spinner");
+
+            // Mock user database
+            const users = JSON.parse(localStorage.getItem("users") || "[]");
+
+            // When the user clicks on the button, open the modal
+            btn.onclick = function() {
+                modal.classList.add("show");
+                document.body.style.overflow = "hidden"; // Prevent scrolling behind modal
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            closeBtn.onclick = function() {
+                closeModal();
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    closeModal();
+                }
+            }
+
+            // Function to close modal
+            function closeModal() {
+                modal.classList.remove("show");
+                setTimeout(() => {
+                    if (!modal.classList.contains("show")) {
+                        document.body.style.overflow = "auto"; // Re-enable scrolling
+                        // Reset forms
+                        signupForm.reset();
+                        loginForm.reset();
+                        // Hide success message
+                        successMessage.style.display = "none";
+                        // Show signup form
+                        signupForm.classList.add("active");
+                        loginForm.classList.remove("active");
+                        // Reset form nav
+                        formNavItems[0].classList.add("active");
+                        formNavItems[1].classList.remove("active");
+                        // Reset error messages
+                        document.querySelectorAll(".error-message").forEach(el => {
+                            el.style.display = "none";
+                        });
+                        // Reset password strength meter
+                        passwordStrengthMeter.style.width = "0%";
+                        passwordStrengthMeter.style.backgroundColor = "#e2e8f0";
+                    }
+                }, 300); // Match the CSS transition duration
+            }
+
+            // Handle form navigation
+            formNavItems.forEach(item => {
+                item.addEventListener("click", function() {
+                    const formType = this.getAttribute("data-form");
+                    formNavItems.forEach(nav => nav.classList.remove("active"));
+                    this.classList.add("active");
+
+                    if (formType === "signup") {
+                        signupForm.classList.add("active");
+                        loginForm.classList.remove("active");
+                        successMessage.style.display = "none";
+                    } else {
+                        loginForm.classList.add("active");
+                        signupForm.classList.remove("active");
+                        successMessage.style.display = "none";
+                    }
+                });
+            });
+
+            // Toggle password visibility
+            passwordToggles.forEach(toggle => {
+                toggle.addEventListener("click", function() {
+                    const passwordField = this.previousElementSibling;
+                    if (passwordField.type === "password") {
+                        passwordField.type = "text";
+                        this.textContent = "🔒";
+                    } else {
+                        passwordField.type = "password";
+                        this.textContent = "👁️";
+                    }
+                });
+            });
+
+            // Password strength checker
+            const signupPassword = document.getElementById("signup-password");
+            signupPassword.addEventListener("input", checkPasswordStrength);
+
+            function checkPasswordStrength() {
+                const password = signupPassword.value;
+                let strength = 0;
+                const regexes = [
+                    /[a-z]/, // lowercase
+                    /[A-Z]/, // uppercase
+                    /[0-9]/, // numbers
+                    /[^a-zA-Z0-9]/, // special characters
+                    /.{8,}/ // at least 8 characters
+                ];
+
+                regexes.forEach(regex => {
+                    if (regex.test(password)) {
+                        strength++;
+                    }
+                });
+
+                // Update the strength meter
+                const percentage = (strength / 5) * 100;
+                passwordStrengthMeter.style.width = `${percentage}%`;
+
+                // Change color based on strength
+                if (percentage < 40) {
+                    passwordStrengthMeter.style.backgroundColor = "#ef4444"; // red
+                } else if (percentage < 80) {
+                    passwordStrengthMeter.style.backgroundColor = "#f59e0b"; // amber
+                } else {
+                    passwordStrengthMeter.style.backgroundColor = "#10b981"; // green
+                }
+            }
+
+            // Validate signup form
+            function validateSignupForm() {
+                let isValid = true;
+                const companyName = document.getElementById("company-name");
+                const fullName = document.getElementById("full-name");
+                const email = document.getElementById("signup-email");
+                const password = document.getElementById("signup-password");
+                const confirmPassword = document.getElementById("confirm-password");
+                const industry = document.getElementById("industry");
+                const terms = document.getElementById("terms");
+
+                // Company name validation
+                if (!companyName.value.trim()) {
+                    document.getElementById("company-name-error").style.display = "block";
+                    companyName.classList.add("shake");
+                    isValid = false;
+                } else {
+                    document.getElementById("company-name-error").style.display = "none";
+                }
+
+                // Full name validation
+                if (!fullName.value.trim()) {
+                    document.getElementById("full-name-error").style.display = "block";
+                    fullName.classList.add("shake");
+                    isValid = false;
+                } else {
+                    document.getElementById("full-name-error").style.display = "none";
+                }
+
+                // Email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!email.value.trim() || !emailRegex.test(email.value)) {
+                    document.getElementById("signup-email-error").style.display = "block";
+                    email.classList.add("shake");
+                    isValid = false;
+                } else {
+                    document.getElementById("signup-email-error").style.display = "none";
+                }
+
+                // Password validation
+                const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+                if (!password.value || !passwordRegex.test(password.value)) {
+                    document.getElementById("signup-password-error").style.display = "block";
+                    password.classList.add("shake");
+                    isValid = false;
+                } else {
+                    document.getElementById("signup-password-error").style.display = "none";
+                }
+
+                // Confirm password validation
+                if (password.value !== confirmPassword.value) {
+                    document.getElementById("confirm-password-error").style.display = "block";
+                    confirmPassword.classList.add("shake");
+                    isValid = false;
+                } else {
+                    document.getElementById("confirm-password-error").style.display = "none";
+                }
+
+                // Industry validation
+                if (!industry.value) {
+                    document.getElementById("industry-error").style.display = "block";
+                    industry.classList.add("shake");
+                    isValid = false;
+                } else {
+                    document.getElementById("industry-error").style.display = "none";
+                }
+
+                // Terms validation
+                if (!terms.checked) {
+                    document.getElementById("terms-error").style.display = "block";
+                    terms.parentElement.classList.add("shake");
+                    isValid = false;
+                } else {
+                    document.getElementById("terms-error").style.display = "none";
+                }
+
+                // Remove shake animation after it completes
+                document.querySelectorAll(".shake").forEach(el => {
+                    setTimeout(() => {
+                        el.classList.remove("shake");
+                    }, 500);
+                });
+
+                return isValid;
+            }
+
+            // Validate login form
+            function validateLoginForm() {
+                let isValid = true;
+                const email = document.getElementById("login-email");
+                const password = document.getElementById("login-password");
+
+                // Email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!email.value.trim() || !emailRegex.test(email.value)) {
+                    document.getElementById("login-email-error").style.display = "block";
+                    email.classList.add("shake");
+                    isValid = false;
+                } else {
+                    document.getElementById("login-email-error").style.display = "none";
+                }
+
+                // Password validation
+                if (!password.value) {
+                    document.getElementById("login-password-error").style.display = "block";
+                    password.classList.add("shake");
+                    isValid = false;
+                } else {
+                    document.getElementById("login-password-error").style.display = "none";
+                }
+
+                // Remove shake animation after it completes
+                document.querySelectorAll(".shake").forEach(el => {
+                    setTimeout(() => {
+                        el.classList.remove("shake");
+                    }, 500);
+                });
+
+                return isValid;
+            }
+
+            // Handle signup form submission
+            signupForm.addEventListener("submit", function(event) {
+                event.preventDefault();
+
+                if (!validateSignupForm()) {
+                    return;
+                }
+
+                // Show loading spinner
+                signupSpinner.style.display = "inline-block";
+                document.getElementById("signup-btn").disabled = true;
+
+                // Get form data
+                const formData = {
+                    companyName: document.getElementById("company-name").value,
+                    fullName: document.getElementById("full-name").value,
+                    email: document.getElementById("signup-email").value,
+                    password: document.getElementById("signup-password").value,
+                    industry: document.getElementById("industry").value,
+                    terms: document.getElementById("terms").checked
+                };
+
+                // Check if user already exists
+                const existingUser = users.find(user => user.email === formData.email);
+                if (existingUser) {
+                    document.getElementById("signup-email-error").textContent = "This email is already registered";
+                    document.getElementById("signup-email-error").style.display = "block";
+                    document.getElementById("signup-email").classList.add("shake");
+                    signupSpinner.style.display = "none";
+                    document.getElementById("signup-btn").disabled = false;
+                    return;
+                }
+
+                // Simulate API call with setTimeout
+                setTimeout(() => {
+                    // Add user to database
+                    users.push(formData);
+                    localStorage.setItem("users", JSON.stringify(users));
+                    
+                    // Set current user
+                    localStorage.setItem("currentUser", JSON.stringify(formData));
+
+                    // Hide signup form and show success message
+                    signupForm.classList.remove("active");
+                    successMessage.style.display = "block";
+
+                    // Redirect to dashboard after delay
+                    setTimeout(() => {
+                        window.location.href = "DASHBOARD.html";
+                    }, 2000);
+                }, 1500);
+            });
+
+            // Handle login form submission
+            loginForm.addEventListener("submit", function(event) {
+                event.preventDefault();
+
+                if (!validateLoginForm()) {
+                    return;
+                }
+
+                // Show loading spinner
+                loginSpinner.style.display = "inline-block";
+                document.getElementById("login-btn").disabled = true;
+
+                // Get form data
+                const email = document.getElementById("login-email").value;
+                const password = document.getElementById("login-password").value;
+
+                // Check if user exists and password is correct
+                const user = users.find(user => user.email === email && user.password === password);
+                
+                // Simulate API call with setTimeout
+                setTimeout(() => {
+                    if (user) {
+                        // Set current user
+                        localStorage.setItem("currentUser", JSON.stringify(user));
+                        
+                        // Redirect to dashboard
+                        window.location.href = "DASHBOARD.html";
+                    } else {
+                        // Show error message
+                        document.getElementById("login-error").style.display = "block";
+                        // Hide loading spinner
+                        loginSpinner.style.display = "none";
+                        document.getElementById("login-btn").disabled = false;
+                    }
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>                

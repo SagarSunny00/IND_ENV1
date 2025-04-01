@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,20 +15,20 @@
             --dark: #2c3e50;
             --grey: #95a5a6;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
             background-color: #f5f7f9;
             color: var(--dark);
             line-height: 1.6;
         }
-        
+
         header {
             background: linear-gradient(to right, var(--primary), var(--secondary));
             color: white;
@@ -35,20 +36,20 @@
             text-align: center;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
-        
+
         .dashboard {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
-        
+
         .card {
             background: white;
             border-radius: 8px;
@@ -56,12 +57,12 @@
             padding: 20px;
             transition: transform 0.3s, box-shadow 0.3s;
         }
-        
+
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         .card-header {
             display: flex;
             justify-content: space-between;
@@ -70,13 +71,13 @@
             padding-bottom: 10px;
             border-bottom: 1px solid #eee;
         }
-        
+
         .card-title {
             font-size: 1.2rem;
             font-weight: 600;
             color: var(--primary);
         }
-        
+
         .status {
             display: inline-block;
             width: 12px;
@@ -84,34 +85,34 @@
             border-radius: 50%;
             margin-right: 5px;
         }
-        
+
         .status.online {
             background-color: var(--secondary);
         }
-        
+
         .status.offline {
             background-color: var(--danger);
         }
-        
+
         .status.warning {
             background-color: var(--warning);
         }
-        
+
         .data-row {
             display: flex;
             justify-content: space-between;
             margin-bottom: 10px;
         }
-        
+
         .data-label {
             color: var(--grey);
             font-size: 0.9rem;
         }
-        
+
         .data-value {
             font-weight: 600;
         }
-        
+
         .progress-bar {
             width: 100%;
             height: 8px;
@@ -120,19 +121,19 @@
             margin: 5px 0 15px;
             overflow: hidden;
         }
-        
+
         .progress-fill {
             height: 100%;
             border-radius: 4px;
             transition: width 0.5s ease-in-out;
         }
-        
+
         .controls {
             display: flex;
             justify-content: space-between;
             margin-top: 15px;
         }
-        
+
         button {
             padding: 8px 15px;
             border: none;
@@ -141,39 +142,39 @@
             font-weight: 600;
             transition: background 0.3s;
         }
-        
+
         .btn-primary {
             background-color: var(--primary);
             color: white;
         }
-        
+
         .btn-primary:hover {
             background-color: #154360;
         }
-        
+
         .btn-secondary {
             background-color: var(--secondary);
             color: white;
         }
-        
+
         .btn-secondary:hover {
             background-color: #219653;
         }
-        
+
         .btn-danger {
             background-color: var(--danger);
             color: white;
         }
-        
+
         .btn-danger:hover {
             background-color: #a93226;
         }
-        
+
         .chart-container {
             height: 250px;
             position: relative;
         }
-        
+
         .control-panel {
             background-color: white;
             border-radius: 8px;
@@ -181,19 +182,19 @@
             padding: 20px;
             margin-bottom: 30px;
         }
-        
+
         .panel-header {
             display: flex;
             justify-content: space-between;
             margin-bottom: 20px;
         }
-        
+
         .device-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 15px;
         }
-        
+
         .device-card {
             background-color: #f9f9f9;
             border-radius: 8px;
@@ -203,33 +204,33 @@
             cursor: pointer;
             border: 1px solid #eee;
         }
-        
+
         .device-card:hover {
             background-color: #f5f5f5;
             border-color: #ddd;
         }
-        
+
         .device-card.active {
             border-color: var(--secondary);
             background-color: rgba(39, 174, 96, 0.1);
         }
-        
+
         .device-icon {
             font-size: 2rem;
             margin-bottom: 10px;
             color: var(--primary);
         }
-        
+
         .device-name {
             font-weight: 600;
             margin-bottom: 5px;
         }
-        
+
         .device-status {
             font-size: 0.8rem;
             color: var(--grey);
         }
-        
+
         .modal {
             display: none;
             position: fixed;
@@ -242,7 +243,7 @@
             justify-content: center;
             align-items: center;
         }
-        
+
         .modal-content {
             background-color: white;
             border-radius: 8px;
@@ -251,7 +252,7 @@
             width: 90%;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
-        
+
         .modal-header {
             display: flex;
             justify-content: space-between;
@@ -260,14 +261,14 @@
             padding-bottom: 10px;
             border-bottom: 1px solid #eee;
         }
-        
+
         .close-btn {
             font-size: 1.5rem;
             background: none;
             border: none;
             cursor: pointer;
         }
-        
+
         .modal-footer {
             display: flex;
             justify-content: flex-end;
@@ -275,17 +276,17 @@
             padding-top: 10px;
             border-top: 1px solid #eee;
         }
-        
+
         .slider-container {
             margin: 20px 0;
         }
-        
+
         .slider-label {
             display: flex;
             justify-content: space-between;
             margin-bottom: 10px;
         }
-        
+
         .slider {
             width: 100%;
             -webkit-appearance: none;
@@ -294,7 +295,7 @@
             background: #eee;
             outline: none;
         }
-        
+
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
@@ -304,17 +305,17 @@
             background: var(--primary);
             cursor: pointer;
         }
-        
+
         .checkbox-container {
             display: flex;
             align-items: center;
             margin: 10px 0;
         }
-        
+
         .checkbox-container input {
             margin-right: 10px;
         }
-        
+
         footer {
             background-color: var(--dark);
             color: white;
@@ -322,7 +323,7 @@
             text-align: center;
             margin-top: 30px;
         }
-        
+
         @media (max-width: 768px) {
             .dashboard {
                 grid-template-columns: 1fr;
@@ -333,17 +334,17 @@
             list-style: none;
             padding: 0;
         }
-        
+
         nav ul li {
             display: inline;
             margin-right: 20px;
         }
-        
+
         nav ul li a {
             text-decoration: none;
             color: #069faa;
         }
-        
+
         button1 {
             padding: 10px 15px;
             background-color: #007BFF;
@@ -352,15 +353,15 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        
+
         button1:hover {
             background-color: #0056b3;
         }
-        
+
         .error {
             color: red;
         }
-        
+
         .contain {
             width: 80%;
             margin: auto;
@@ -372,23 +373,57 @@
             justify-content: center;
             display: flex;
         }
-          
 
+
+        .user-controls {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .user-name {
+            margin-right: 15px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .btn-logout {
+            background-color: white;
+            color: var(--primary);
+            border: none;
+            padding: 5px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .btn-logout:hover {
+            background-color: #f0f0f0;
+            color: var(--danger);
+        }
     </style>
 </head>
+
 <body>
     <header>
         <h1>Industrial Automation & Environmental Management</h1>
         <p>Real-time monitoring and control system</p>
+
+        <div class="user-controls">
+            <span class="user-name">Welcome</span>
+            <button class="btn-logout" id="logout-btn"><a href="index.html">Logout</a></button>
+        </div>
+
     </header>
-    <div class="contain">    
+    <div class="contain">
         <nav>
             <ul>
                 <li><a href="automation.html">Industrial Automation</a></li>
                 <li><a href="environment.html">Environmental Management</a></li>
                 <li><a href="analytics.html">Data Analytics</a></li>
                 <li><a href="casestudies.html">Case Studies</a></li>
-
             </ul>
         </nav>
     </div>
@@ -409,7 +444,8 @@
                 </div>
                 <div class="data-label">Progress:</div>
                 <div class="progress-bar">
-                    <div class="progress-fill" id="energy-progress" style="width: 78.3%; background-color: var(--secondary);"></div>
+                    <div class="progress-fill" id="energy-progress"
+                        style="width: 78.3%; background-color: var(--secondary);"></div>
                 </div>
                 <div class="data-row">
                     <span class="data-label">Efficiency Rating:</span>
@@ -420,7 +456,7 @@
                     <button class="btn-secondary" id="energy-optimize">Optimize</button>
                 </div>
             </div>
-            
+
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">Water Management</div>
@@ -436,7 +472,8 @@
                 </div>
                 <div class="data-label">Progress:</div>
                 <div class="progress-bar">
-                    <div class="progress-fill" id="water-progress" style="width: 83%; background-color: var(--warning);"></div>
+                    <div class="progress-fill" id="water-progress"
+                        style="width: 83%; background-color: var(--warning);"></div>
                 </div>
                 <div class="data-row">
                     <span class="data-label">Treatment Status:</span>
@@ -447,7 +484,7 @@
                     <button class="btn-secondary" id="water-maintenance">Maintenance</button>
                 </div>
             </div>
-            
+
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">Emissions Monitoring</div>
@@ -463,7 +500,8 @@
                 </div>
                 <div class="data-label">Current Level:</div>
                 <div class="progress-bar">
-                    <div class="progress-fill" id="emissions-progress" style="width: 63%; background-color: var(--secondary);"></div>
+                    <div class="progress-fill" id="emissions-progress"
+                        style="width: 63%; background-color: var(--secondary);"></div>
                 </div>
                 <div class="data-row">
                     <span class="data-label">Air Quality Index:</span>
@@ -475,44 +513,44 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="control-panel">
             <div class="panel-header">
                 <h2>Automated Systems Control</h2>
                 <button class="btn-primary" id="refresh-systems">Refresh Status</button>
             </div>
-            
+
             <div class="device-grid">
                 <div class="device-card" id="hvac-system">
                     <div class="device-icon">🌡️</div>
                     <div class="device-name">HVAC System</div>
                     <div class="device-status">Running • 72°F</div>
                 </div>
-                
+
                 <div class="device-card" id="water-treatment">
                     <div class="device-icon">💧</div>
                     <div class="device-name">Water Treatment</div>
                     <div class="device-status">Active • 85% Efficiency</div>
                 </div>
-                
+
                 <div class="device-card" id="energy-grid">
                     <div class="device-icon">⚡</div>
                     <div class="device-name">Energy Grid</div>
                     <div class="device-status">Optimized • 94% Efficiency</div>
                 </div>
-                
+
                 <div class="device-card" id="waste-management">
                     <div class="device-icon">♻️</div>
                     <div class="device-name">Waste Management</div>
                     <div class="device-status">Needs Attention</div>
                 </div>
-                
+
                 <div class="device-card" id="lighting-system">
                     <div class="device-icon">💡</div>
                     <div class="device-name">Lighting System</div>
                     <div class="device-status">Smart Mode • 63% Brightness</div>
                 </div>
-                
+
                 <div class="device-card" id="security-system">
                     <div class="device-icon">🔒</div>
                     <div class="device-name">Security System</div>
@@ -520,40 +558,41 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="card">
             <div class="card-header">
                 <div class="card-title">Environmental Impact Summary</div>
                 <div>Last Updated: <span id="last-updated">Just now</span></div>
             </div>
-            
+
             <div class="data-row">
                 <span class="data-label">Carbon Footprint:</span>
                 <span class="data-value" id="carbon-footprint">23.5 tons CO2e</span>
             </div>
-            
+
             <div class="data-row">
                 <span class="data-label">Renewable Energy Usage:</span>
                 <span class="data-value" id="renewable-percent">34%</span>
             </div>
-            
+
             <div class="data-row">
                 <span class="data-label">Waste Recycling Rate:</span>
                 <span class="data-value" id="recycling-rate">78%</span>
             </div>
-            
+
             <div class="data-row">
                 <span class="data-label">Water Conservation:</span>
                 <span class="data-value" id="water-saved">14,500 L saved this month</span>
             </div>
-            
+
             <div class="controls">
-                <button class="btn-primary" id="generate-env-report">Generate Full Report</button>
+                <button class="btn-primary" id="generate-env-report"><a href="environmental-report.html">Generate Full
+                        Report</a></button>
                 <button class="btn-secondary" id="optimize-env-systems">Optimize All Systems</button>
             </div>
         </div>
     </div>
-    
+
     <!-- Control Modal -->
     <div class="modal" id="control-modal">
         <div class="modal-content">
@@ -561,7 +600,7 @@
                 <h3 id="modal-title">System Control</h3>
                 <button class="close-btn" id="close-modal">&times;</button>
             </div>
-            
+
             <div id="modal-body">
                 <div class="slider-container">
                     <div class="slider-label">
@@ -570,7 +609,7 @@
                     </div>
                     <input type="range" min="0" max="100" value="50" class="slider" id="intensity-slider">
                 </div>
-                
+
                 <div class="slider-container">
                     <div class="slider-label">
                         <span>Efficiency Mode</span>
@@ -578,35 +617,37 @@
                     </div>
                     <input type="range" min="0" max="100" value="70" class="slider" id="efficiency-slider">
                 </div>
-                
+
                 <div class="checkbox-container">
                     <input type="checkbox" id="auto-optimize" checked>
                     <label for="auto-optimize">Enable Auto-Optimization</label>
                 </div>
-                
+
                 <div class="checkbox-container">
                     <input type="checkbox" id="eco-mode">
                     <label for="eco-mode">Eco-Friendly Mode (Reduced Performance)</label>
                 </div>
-                
+
                 <div class="checkbox-container">
                     <input type="checkbox" id="maintenance-alert" checked>
                     <label for="maintenance-alert">Maintenance Alerts</label>
                 </div>
             </div>
-            
+
             <div class="modal-footer">
                 <button class="btn-danger" id="reset-defaults">Reset to Defaults</button>
                 <button class="btn-secondary" id="save-settings">Save Settings</button>
             </div>
         </div>
     </div>
-    
+
+
+
     <footer>
         <p>Industrial Automation & Environmental Management Dashboard - Demo Version</p>
         <p>© 2025 - Sustainable Industry Solutions</p>
     </footer>
-    
+
     <script>
         // DOM Elements
         const controlModal = document.getElementById('control-modal');
@@ -618,7 +659,7 @@
         const efficiencyValue = document.getElementById('efficiency-value');
         const saveSettingsBtn = document.getElementById('save-settings');
         const resetDefaultsBtn = document.getElementById('reset-defaults');
-        
+
         // Dashboard elements
         const energyUsage = document.getElementById('energy-usage');
         const energyProgress = document.getElementById('energy-progress');
@@ -634,10 +675,10 @@
         const renewablePercent = document.getElementById('renewable-percent');
         const recyclingRate = document.getElementById('recycling-rate');
         const waterSaved = document.getElementById('water-saved');
-        
+
         // Device cards
         const deviceCards = document.querySelectorAll('.device-card');
-        
+
         // Action buttons
         const energyDetailsBtn = document.getElementById('energy-details');
         const energyOptimizeBtn = document.getElementById('energy-optimize');
@@ -648,7 +689,7 @@
         const refreshSystemsBtn = document.getElementById('refresh-systems');
         const generateEnvReportBtn = document.getElementById('generate-env-report');
         const optimizeEnvSystemsBtn = document.getElementById('optimize-env-systems');
-        
+
         // Data variables
         let currentSystem = '';
         let systemData = {
@@ -659,114 +700,114 @@
             lighting: { intensity: 63, efficiency: 85, autoOptimize: true, ecoMode: true, alerts: false },
             security: { intensity: 90, efficiency: 75, autoOptimize: false, ecoMode: false, alerts: true }
         };
-        
+
         // Event Listeners
         intensitySlider.addEventListener('input', () => {
             intensityValue.textContent = `${intensitySlider.value}%`;
         });
-        
+
         efficiencySlider.addEventListener('input', () => {
             efficiencyValue.textContent = `${efficiencySlider.value}%`;
         });
-        
+
         closeModalBtn.addEventListener('click', () => {
             controlModal.style.display = 'none';
         });
-        
+
         saveSettingsBtn.addEventListener('click', () => {
             saveCurrentSettings();
             updateDashboard();
             controlModal.style.display = 'none';
             showNotification(`Settings saved for ${modalTitle.textContent}`);
         });
-        
+
         resetDefaultsBtn.addEventListener('click', () => {
             resetSettings();
         });
-        
+
         // Add click event to all device cards
         deviceCards.forEach(card => {
             card.addEventListener('click', () => {
                 const systemId = card.id;
                 openSystemControl(systemId);
-                
+
                 // Toggle active class
                 deviceCards.forEach(c => c.classList.remove('active'));
                 card.classList.add('active');
             });
         });
-        
+
         // Action button event listeners
         energyDetailsBtn.addEventListener('click', () => {
             openSystemControl('energy-grid');
         });
-        
+
         energyOptimizeBtn.addEventListener('click', () => {
             optimizeSystem('energy');
             updateDashboard();
             showNotification('Energy systems optimized');
         });
-        
+
         waterDetailsBtn.addEventListener('click', () => {
             openSystemControl('water-treatment');
         });
-        
+
         waterMaintenanceBtn.addEventListener('click', () => {
             scheduleSystemMaintenance('water');
             showNotification('Water system maintenance scheduled');
         });
-        
+
         emissionsReportBtn.addEventListener('click', () => {
             generateSystemReport('emissions');
             showNotification('Emissions report generated');
         });
-        
+
         emissionsAdjustBtn.addEventListener('click', () => {
             adjustEmissionSystems();
             updateDashboard();
             showNotification('Emission systems adjusted');
         });
-        
+
         refreshSystemsBtn.addEventListener('click', () => {
             refreshAllSystems();
             updateDashboard();
             showNotification('All systems refreshed');
         });
-        
+
         generateEnvReportBtn.addEventListener('click', () => {
             generateEnvironmentalReport();
             showNotification('Environmental report generated');
         });
-        
+
         optimizeEnvSystemsBtn.addEventListener('click', () => {
             optimizeAllSystems();
             updateDashboard();
             showNotification('All environmental systems optimized');
         });
-        
+
         // Functions
         function openSystemControl(systemId) {
             const systemType = systemId.split('-')[0];
             currentSystem = systemType;
-            
+
             modalTitle.textContent = document.querySelector(`#${systemId} .device-name`).textContent;
-            
+
             // Load the current settings
             const settings = getSystemSettings(systemType);
             intensitySlider.value = settings.intensity;
             intensityValue.textContent = `${settings.intensity}%`;
-            
+
             efficiencySlider.value = settings.efficiency;
             efficiencyValue.textContent = `${settings.efficiency}%`;
-            
+
             document.getElementById('auto-optimize').checked = settings.autoOptimize;
             document.getElementById('eco-mode').checked = settings.ecoMode;
             document.getElementById('maintenance-alert').checked = settings.alerts;
-            
+
             // Show the modal
             controlModal.style.display = 'flex';
         }
-        
+
         function getSystemSettings(systemType) {
             // Map the system ID to our data object keys
             const mappings = {
@@ -777,13 +818,13 @@
                 'lighting': 'lighting',
                 'security': 'security'
             };
-            
+
             return systemData[mappings[systemType]] || systemData.hvac;
         }
-        
+
         function saveCurrentSettings() {
             if (!currentSystem) return;
-            
+
             const mappings = {
                 'hvac': 'hvac',
                 'water': 'water',
@@ -792,9 +833,9 @@
                 'lighting': 'lighting',
                 'security': 'security'
             };
-            
+
             const systemKey = mappings[currentSystem];
-            
+
             systemData[systemKey] = {
                 intensity: parseInt(intensitySlider.value),
                 efficiency: parseInt(efficiencySlider.value),
@@ -802,50 +843,50 @@
                 ecoMode: document.getElementById('eco-mode').checked,
                 alerts: document.getElementById('maintenance-alert').checked
             };
-            
+
             // Update the device card
             const deviceCard = document.getElementById(`${currentSystem}-system`);
             if (deviceCard) {
                 const statusElem = deviceCard.querySelector('.device-status');
                 if (statusElem) {
-                    const mode = systemData[systemKey].ecoMode ? 'Eco Mode' : 
-                               systemData[systemKey].autoOptimize ? 'Smart Mode' : 'Manual Mode';
+                    const mode = systemData[systemKey].ecoMode ? 'Eco Mode' :
+                        systemData[systemKey].autoOptimize ? 'Smart Mode' : 'Manual Mode';
                     statusElem.textContent = `${mode} • ${systemData[systemKey].efficiency}% Efficiency`;
                 }
             }
         }
-        
+
         function resetSettings() {
             intensitySlider.value = 50;
             intensityValue.textContent = '50%';
-            
+
             efficiencySlider.value = 70;
             efficiencyValue.textContent = '70%';
-            
+
             document.getElementById('auto-optimize').checked = true;
             document.getElementById('eco-mode').checked = false;
             document.getElementById('maintenance-alert').checked = true;
         }
-        
+
         function optimizeSystem(systemType) {
             const system = systemData[systemType];
             if (!system) return;
-            
+
             // Simulate optimization logic
             system.efficiency = Math.min(100, system.efficiency + getRandomInt(5, 15));
             system.autoOptimize = true;
-            
+
             if (systemType === 'energy') {
-                energyEfficiency.textContent = system.efficiency > 85 ? 'Excellent' : 
-                                           system.efficiency > 70 ? 'High' : 
-                                           system.efficiency > 50 ? 'Medium' : 'Low';
-                
+                energyEfficiency.textContent = system.efficiency > 85 ? 'Excellent' :
+                    system.efficiency > 70 ? 'High' :
+                        system.efficiency > 50 ? 'Medium' : 'Low';
+
                 const newUsage = Math.max(50, 78.3 - getRandomInt(3, 8));
                 energyUsage.textContent = `${newUsage.toFixed(1)} kWh`;
                 energyProgress.style.width = `${newUsage}%`;
             }
         }
-        
+
         function scheduleSystemMaintenance(systemType) {
             // Simulate scheduling maintenance
             const statusMessages = [
@@ -854,48 +895,220 @@
                 'Pending Inspection',
                 'Service Requested'
             ];
-            
+
             if (systemType === 'water') {
                 waterStatus.textContent = statusMessages[getRandomInt(0, statusMessages.length - 1)];
             }
         }
-        
+
         function generateSystemReport(systemType) {
             // Simulate report generation
             console.log(`Generated report for ${systemType} system`);
         }
-        
+
         function adjustEmissionSystems() {
             // Simulate adjusting emissions systems
             const newCO2 = Math.max(10, 12.6 - getRandomInt(0, 2));
             co2Level.textContent = `${newCO2.toFixed(1)} tons`;
             emissionsProgress.style.width = `${(newCO2 / 20) * 100}%`;
-            
+
             const newAQI = Math.max(40, 62 - getRandomInt(5, 15));
-            const aqiText = newAQI < 50 ? 'Excellent' : 
-                          newAQI < 70 ? 'Good' : 
-                          newAQI < 90 ? 'Moderate' : 'Poor';
+            const aqiText = newAQI < 50 ? 'Excellent' :
+                newAQI < 70 ? 'Good' :
+                    newAQI < 90 ? 'Moderate' : 'Poor';
             airQuality.textContent = `${aqiText} (${newAQI})`;
         }
-        
+
         function refreshAllSystems() {
             // Simulate system refresh with random variations
             updateLastUpdated();
-            
+
             // Random fluctuations for energy
             const energyVal = 78.3 + getRandomFloat(-5, 5);
             energyUsage.textContent = `${energyVal.toFixed(1)} kWh`;
             energyProgress.style.width = `${energyVal}%`;
-            
+
             // Random fluctuations for water
             const waterVal = 1245 + getRandomInt(-100, 100);
             waterUsage.textContent = `${waterVal.toLocaleString()} L`;
             waterProgress.style.width = `${(waterVal / 1500) * 100}%`;
-            
+
             // Random fluctuations for CO2
             const co2Val = 12.6 + getRandomFloat(-1, 1);
             co2Level.textContent = `${co2Val.toFixed(1)} tons`;
         }
+
+        // Define helper functions
+        function getRandomFloat(min, max) {
+            return Math.random() * (max - min) + min;  // Returns a random float between min and max
+        }
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;  // Returns a random integer between min and max
+        }
+
+        // Your existing code
+        missionsProgress.style.width = `${(co2Val / 20) * 100}%`;
+
+        // Update environmental impact metrics with small variations
+        const carbonVal = 23.5 + getRandomFloat(-2, 2);
+        carbonFootprint.textContent = `${carbonVal.toFixed(1)} tons CO2e`;
+
+        const renewableVal = 34 + getRandomInt(-3, 3);
+        renewablePercent.textContent = `${renewableVal}%`;
+
+        const recyclingVal = 78 + getRandomInt(-5, 5);
+        recyclingRate.textContent = `${recyclingVal}%`;
+
+        const waterSavedVal = 14500 + getRandomInt(-500, 500);
+        waterSaved.textContent = `${waterSavedVal.toLocaleString()} L saved this month`;
+
+        function generateEnvironmentalReport() {
+            // Simulate generating a comprehensive environmental report
+            console.log('Environmental Impact Report Generated');
+            // In a real application, this would trigger a PDF generation or similar
+        }
+
+        function optimizeAllSystems() {
+            // Optimize all systems in the dashboard
+            Object.keys(systemData).forEach(system => {
+                systemData[system].efficiency = Math.min(100, systemData[system].efficiency + getRandomInt(3, 8));
+                systemData[system].autoOptimize = true;
+            });
+
+            // Update visual indicators
+            energyEfficiency.textContent = 'Excellent';
+            waterStatus.textContent = 'Optimized';
+            airQuality.textContent = 'Excellent (45)';
+
+            // Update progress bars
+            energyProgress.style.width = '65%';
+            energyUsage.textContent = '65.0 kWh';
+
+            waterProgress.style.width = '70%';
+            waterUsage.textContent = '1,050 L';
+
+            emissionsProgress.style.width = '50%';
+            co2Level.textContent = '10.0 tons';
+
+            // Update environmental metrics
+            carbonFootprint.textContent = '20.1 tons CO2e';
+            renewablePercent.textContent = '42%';
+            recyclingRate.textContent = '85%';
+            waterSaved.textContent = '16,200 L saved this month';
+
+            // Update device statuses
+            updateDeviceStatuses();
+        }
+
+        function updateDeviceStatuses() {
+            // Update all device status displays based on current systemData
+            const deviceMappings = {
+                'hvac-system': 'hvac',
+                'water-treatment': 'water',
+                'energy-grid': 'energy',
+                'waste-management': 'waste',
+                'lighting-system': 'lighting',
+                'security-system': 'security'
+            };
+
+            Object.entries(deviceMappings).forEach(([deviceId, systemKey]) => {
+                const device = document.getElementById(deviceId);
+                if (!device) return;
+
+                const statusElem = device.querySelector('.device-status');
+                if (!statusElem) return;
+
+                const system = systemData[systemKey];
+                const mode = system.ecoMode ? 'Eco Mode' :
+                    system.autoOptimize ? 'Smart Mode' : 'Manual Mode';
+
+                statusElem.textContent = `${mode} • ${system.efficiency}% Efficiency`;
+            });
+
+            // Update specific statuses with more customized info
+            document.querySelector('#hvac-system .device-status').textContent =
+                `${systemData.hvac.autoOptimize ? 'Smart Mode' : 'Manual'} • ${(70 + getRandomInt(-2, 2))}°F`;
+
+            document.querySelector('#security-system .device-status').textContent =
+                'Armed • All Clear';
+        }
+
+        function updateLastUpdated() {
+            // Update the last updated timestamp
+            lastUpdated.textContent = 'Just now';
+
+            // After 1 minute, change to "1 minute ago"
+            setTimeout(() => {
+                lastUpdated.textContent = '1 minute ago';
+            }, 60000);
+        }
+
+        function showNotification(message) {
+            // Create a notification element
+            const notification = document.createElement('div');
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.backgroundColor = 'var(--primary)';
+            notification.style.color = 'white';
+            notification.style.padding = '10px 20px';
+            notification.style.borderRadius = '4px';
+            notification.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
+            notification.style.zIndex = '1000';
+            notification.textContent = message;
+
+            // Add to document
+            document.body.appendChild(notification);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 0.5s';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 500);
+            }, 3000);
+        }
+
+        // Helper functions
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function getRandomFloat(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        // Initialize dashboard with random variations on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            updateDashboard();
+
+            // Set up periodic refresh (every 30 seconds)
+            setInterval(() => {
+                refreshAllSystems();
+            }, 30000);
+        });
+
+        function updateDashboard() {
+            refreshAllSystems();
+            updateDeviceStatuses();
+            updateLastUpdated();
+        }
+
+        // Window click event to close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === controlModal) {
+                controlModal.style.display = 'none';
+            }
+        });
+
+        // Logout button handler
+        document.getElementById('logout-btn').addEventListener('click', function () {
+            // For Flask, you'd typically send a request to a logout route
+            window.location.href = '/logout';
+        });
     </script>
-    </body>
-</html>    
+</body>
+
+</html>
